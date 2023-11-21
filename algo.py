@@ -9,7 +9,7 @@ warnings.simplefilter(action="ignore")
 import pickle
 
 ## database init
-db = ADatabase("algo")
+db = ADatabase("sapling")
 market = ADatabase("market")
 fed = ADatabase("fed")
 market.connect()

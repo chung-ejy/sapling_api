@@ -8,7 +8,9 @@ from datetime import datetime, timedelta
 import requests
 from database.adatabase import ADatabase
 from algo import algo
-db = ADatabase("algo")
+
+db = ADatabase("sapling")
+
 @csrf_exempt
 def backtestView(request):
     try:
