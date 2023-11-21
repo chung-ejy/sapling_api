@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "database",
     "processor",
+    'dashboard',
     'algo_functions',
     'django.contrib.admin',
     'django.contrib.auth',
