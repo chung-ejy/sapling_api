@@ -23,6 +23,7 @@ def backtestView(request):
         print(str(e))
     return JsonResponse(complete,safe=False)
 
+@csrf_exempt
 def tradesView(request):
     try:
         if request.method == "GET":
@@ -36,11 +37,12 @@ def tradesView(request):
         print(str(e))
     return JsonResponse(complete,safe=False)
 
+@csrf_exempt
 def portfoliosView(request):
     try:
         if request.method == "GET":
             db.connect()
-            complete = db.retrieve("portfolios").round(3).fillna(0).to_dict("records")
+            complete = db.retrieve("portfolios").sort_values("date",ascending=False).round(3).fillna(0).to_dict("records")
             db.disconnect()
         else:
             complete = []
@@ -49,6 +51,7 @@ def portfoliosView(request):
         print(str(e))
     return JsonResponse(complete,safe=False)
 
+@csrf_exempt
 def recommendationsView(request):
     try:
         if request.method == "GET":

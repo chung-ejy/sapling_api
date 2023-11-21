@@ -33,7 +33,7 @@ def algo(query):
     training_years = query["training_years"]
     market.connect()
     model_data = []
-    for ticker in tqdm(tickers[::5],desc="model_prep"):
+    for ticker in tqdm(tickers,desc="model_prep"):
         try:
             ticker_prices = processor.column_date_processing(market.query("prices",{"ticker":ticker}))
             ticker_prices.sort_values("date",inplace=True)
