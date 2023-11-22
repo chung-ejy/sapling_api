@@ -107,8 +107,6 @@ def algo(query):
     trades = processor.column_date_processing(trades[["date","std","ticker","direction","abs","GICS Sector","adjclose","return"]])
     trades.sort_values("date",inplace=True)
     portfolio = trades[["date","return"]].groupby("date").sum().reset_index()
-    # portfolio = processor.merge(portfolio,benchmark,on="date").dropna()
-    # portfolio["bcr"] = (portfolio["sp500"] - portfolio["sp500"].iloc[0]) / portfolio["sp500"].iloc[0] + 1
     portfolio["return"] = portfolio["return"] + 1
     portfolio["cr"] = portfolio["return"].cumprod()
 
