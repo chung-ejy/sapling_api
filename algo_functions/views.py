@@ -44,7 +44,7 @@ def portfoliosView(request):
     try:
         if request.method == "GET":
             db.connect()
-            complete = db.retrieve("portfolios").sort_values("date",ascending=False).round(3).fillna(0).to_dict("records")
+            complete = db.retrieve("portfolios").sort_values("date",ascending=True).round(3).fillna(0).to_dict("records")
             db.disconnect()
         else:
             complete = []

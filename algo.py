@@ -6,7 +6,6 @@ from processor.processor import Processor as processor
 from tqdm import tqdm
 import warnings
 warnings.simplefilter(action="ignore")
-import pickle
 
 ## database init
 db = ADatabase("sapling")
@@ -54,7 +53,6 @@ def algo(query):
     model.fit(model_data[factors],model_data["y"])
     simulation = training_data[training_data["year"]>training_year]
     simulation["prediction"] = model.predict(simulation[factors])
-    
     
     bt_data = []
     for ticker in tqdm(simulation["ticker"].unique(),desc="backtest_prep"):
@@ -106,11 +104,11 @@ def algo(query):
     trades = trades.sort_values("abs").groupby(["date","GICS Sector"]).first().reset_index()
 
     # analysis
-    trades = processor.column_date_processing(trades[["date","std","ticker","GICS Sector","adjclose","return"]])
-
+    trades = processor.column_date_processing(trades[["date","std","ticker","direction","abs","GICS Sector","adjclose","return"]])
+    trades.sort_values("date",inplace=True)
     portfolio = trades[["date","return"]].groupby("date").sum().reset_index()
-    portfolio = processor.merge(portfolio,benchmark,on="date").dropna()
-    portfolio["bcr"] = (portfolio["sp500"] - portfolio["sp500"].iloc[0]) / portfolio["sp500"].iloc[0] + 1
+    # portfolio = processor.merge(portfolio,benchmark,on="date").dropna()
+    # portfolio["bcr"] = (portfolio["sp500"] - portfolio["sp500"].iloc[0]) / portfolio["sp500"].iloc[0] + 1
     portfolio["return"] = portfolio["return"] + 1
     portfolio["cr"] = portfolio["return"].cumprod()
 
