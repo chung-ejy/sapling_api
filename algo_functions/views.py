@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
 import requests
 from database.adatabase import ADatabase
+import numpy as np
 from algo import algo
 
 db = ADatabase("sapling")
@@ -30,7 +31,7 @@ def tradesView(request):
     try:
         if request.method == "GET":
             db.connect()
-            complete = db.retrieve("trades").round(3).fillna(0).to_dict("records")
+            complete = db.retrieve("trades").round(3).replace([np.inf,np.nan],np.nan).dropna().to_dict("records")
             db.disconnect()
         else:
             complete = []

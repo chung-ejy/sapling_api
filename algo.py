@@ -6,7 +6,7 @@ from processor.processor import Processor as processor
 from tqdm import tqdm
 import warnings
 warnings.simplefilter(action="ignore")
-
+import numpy as np
 ## database init
 db = ADatabase("sapling")
 market = ADatabase("market")
