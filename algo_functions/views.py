@@ -10,7 +10,7 @@ from database.adatabase import ADatabase
 import numpy as np
 from algo import algo
 
-db = ADatabase("sapling")
+db = ADatabase("algo")
 
 @csrf_exempt
 def backtestView(request):
@@ -45,7 +45,7 @@ def portfoliosView(request):
     try:
         if request.method == "GET":
             db.connect()
-            complete = db.retrieve("portfolios").sort_values("date",ascending=True).round(3).fillna(0).to_dict("records")
+            complete = db.retrieve("portfolio").sort_values("date",ascending=True).round(3).fillna(0).to_dict("records")
             db.disconnect()
         else:
             complete = []
@@ -59,7 +59,10 @@ def recommendationsView(request):
     try:
         if request.method == "GET":
             db.connect()
-            complete = db.retrieve("recommendations").round(3).fillna(0).to_dict("records")
+            complete = db.retrieve("recommendations").sort_values("ticker").round(3).fillna(0)
+            complete["date"] = [str(x).split("00:")[0] for x in complete["date"]]
+            complete["sell_date"] = [str(x).split("00:")[0] for x in complete["sell_date"]]
+            complete = complete.to_dict("records")  
             db.disconnect()
         else:
             complete = []

@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "database",
     "processor",
-    'dashboard',
+    'alp',
     'algo_functions',
     'corsheaders',
     'django.contrib.admin',

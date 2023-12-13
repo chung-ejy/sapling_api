@@ -18,6 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("algo/",include("algo_functions.urls")),
-    path("",include("dashboard.urls"))
+    path("alp/",include("alp.urls")),
+    path("algo/",include("algo_functions.urls"))
 ]

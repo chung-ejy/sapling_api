@@ -41,6 +41,7 @@ def algo(query):
             ticker_prices["rolling_60"] = ticker_prices["adjclose"].rolling(60).mean()
             ticker_prices["rolling_100"] = ticker_prices["adjclose"].rolling(100).mean()
             ticker_prices["y"] = ticker_prices["adjclose"].shift(-holding_period)
+            # ticker_prices["prediction"] = ticker_prices["adjclose"].rolling(holding_period).mean()
             model_data.append(ticker_prices)
         except:
             continue
@@ -49,9 +50,9 @@ def algo(query):
     ## ai
     training_data = pd.concat(model_data)
     model_data = training_data[(training_data["year"]<=training_year) & (training_data["year"]>=training_year-training_years)].dropna()
-    model = XGBRegressor(booster="dart",learning_rate=0.1)
-    model.fit(model_data[factors],model_data["y"])
     simulation = training_data[training_data["year"]>training_year]
+    model = XGBRegressor(booster="dart",learning_rate=1)
+    model.fit(model_data[factors],model_data["y"])
     simulation["prediction"] = model.predict(simulation[factors])
     
     bt_data = []
