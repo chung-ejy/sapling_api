@@ -28,3 +28,39 @@ def positionsView(request):
         complete = {}
         print(str(e))
     return JsonResponse(complete,safe=False)
+
+@csrf_exempt
+def historyView(request):
+    try:
+        if request.method == "GET":
+            complete = alp.history()
+        else:
+            complete = {}
+    except Exception as e:
+        complete = {}
+        print(str(e))
+    return JsonResponse(complete,safe=False)
+
+@csrf_exempt
+def ordersView(request):
+    try:
+        if request.method == "GET":
+            complete = alp.orders()
+        else:
+            complete = {}
+    except Exception as e:
+        complete = {}
+        print(str(e))
+    return JsonResponse(complete,safe=False)
+
+@csrf_exempt
+def closeView(request):
+    try:
+        if request.method == "GET":
+            complete = alp.close()
+        else:
+            complete = {}
+    except Exception as e:
+        complete = {}
+        print(str(e))
+    return JsonResponse(complete,safe=False)

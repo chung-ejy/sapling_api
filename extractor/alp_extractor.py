@@ -5,6 +5,7 @@ load_dotenv()
 paperkey = os.getenv("APCAPAPERKEY")
 papersecret = os.getenv("APCAPAPERSECRET")
 import pandas as pd
+from datetime import datetime
 
 class ALPExtractor(object):
 
@@ -53,6 +54,34 @@ class ALPExtractor(object):
         url = "https://paper-api.alpaca.markets/v2/positions"
         requestBody = r.get(url,params=params,headers=headers)
         return requestBody.json()
+
+    @classmethod
+    def orders(self):
+        headers = {
+            'APCA-API-KEY-ID': paperkey,
+            'APCA-API-SECRET-KEY': papersecret,
+            'accept': 'application/json'
+        }
+        params = {}
+        url = "https://paper-api.alpaca.markets/v2/orders"
+        requestBody = r.get(url,params=params,headers=headers)
+        return requestBody.json()
+    
+    @classmethod
+    def history(self):
+        headers = {
+            'APCA-API-KEY-ID': paperkey,
+            'APCA-API-SECRET-KEY': papersecret,
+            'accept': 'application/json'
+        }
+        params = {
+            "period":"1A"
+        }
+        url = "https://paper-api.alpaca.markets/v2/account/portfolio/history"
+        requestBody = r.get(url,params=params,headers=headers)
+        df = pd.DataFrame(requestBody.json())
+        df["date"] = [datetime.fromtimestamp(x) for x in df["timestamp"]]
+        return df.to_dict("records")
 
     @classmethod
     def buy(self,ticker,qty):
